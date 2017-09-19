@@ -107,6 +107,8 @@ public class ShoppingCartImpl implements IShoppingCart{
 	@Override
 	public ShoppingCart queryShoppingCart(String userphone) {
 		// TODO Auto-generated method stub
+		
+		log.info("1111111111111");
 		return  shoppingCartDao.queryShopp(userphone);
 	}
 	
