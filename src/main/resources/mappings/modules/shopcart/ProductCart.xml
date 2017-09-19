@@ -13,12 +13,13 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
     	<result property="cartId" column="cart_id" jdbcType="INTEGER"/>
     	<result property="productId" column="product_id" jdbcType="INTEGER"/>
     	<result property="amount" column="amount" jdbcType="INTEGER"/>
+    	<result property="userPhone" column="user_phone" jdbcType="INTEGER"/>
 	</resultMap>
 	
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="productCartColumnList">
 	    <![CDATA[
-			id,cart_id,product_id,amount
+			id,cart_id,product_id,amount,user_phone
 	    ]]>
 	</sql>
 	
@@ -38,6 +39,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	     	<if test="amount != null" >
 		    amount,
 		  	</if>
+		  	<if test="userPhone != null" >
+		  	user_phone,
+		  	</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
 	     	<if test="id != null" >
@@ -51,6 +55,9 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		  	</if>
 	     	<if test="amount != null" >
 		    #{amount,jdbcType=INTEGER},
+		  	</if>
+		  	<if test="userPhone != null" >
+		   	#{userPhone,jdbcType=INTEGER},
 		  	</if>
 		</trim>
 	</insert>	
@@ -74,7 +81,29 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		       <if test="amount != null">
 					AND amount = #{amount,jdbcType=INTEGER}
 			   </if>
+			   <if test="userPhone != null">
+					AND user_phone =#{userPhone,jdbcType=INTEGER},
+			   </if>
 		</where>
+	</select>
+	
+	<select id="querycart" resultMap="productCartResultMap"   parameterType="hashmap" >
+		SELECT 
+		  id,
+		  cart_id,
+		  product_id,
+		  SUM(amount) AS amount,
+		  user_phone 
+		FROM
+		  product_cart 
+	   <where>	  
+	 		<if test="userPhone != null">
+				AND user_phone =#{userPhone,jdbcType=INTEGER},
+		    </if>
+		</where>
+		 <![CDATA[
+		GROUP BY product_id 
+	   ]]>
 	</select>
 	
 </mapper>

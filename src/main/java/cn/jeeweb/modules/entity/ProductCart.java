@@ -20,6 +20,8 @@ public class ProductCart implements Serializable{
 	private int productId;
 	//商品数量
 	private int amount;
+	//用户电话
+	private String userPhone;
 	
 
 	public ProductCart(){
@@ -59,18 +61,15 @@ public class ProductCart implements Serializable{
 		return this.amount;
 	}
 
-
-
-
-	@Override
-	public String toString() {
-		return  "ProductCart ["
-			+ "Id = " + getId() + ","
-			+ "CartId = " + getCartId() + ","
-			+ "ProductId = " + getProductId() + ","
-			+ "Amount = " + getAmount() + ","
-		+"]";
+	public String getUserPhone() {
+		return userPhone;
 	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+
 	
 }
 

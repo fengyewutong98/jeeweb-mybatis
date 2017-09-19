@@ -1,9 +1,8 @@
 package cn.jeeweb.modules.service;
 
-import java.util.List;
-import java.util.Map;
 
 import cn.jeeweb.modules.entity.ShoppingCart;
+import net.sf.json.JSONObject;
 
 
 /**
@@ -12,6 +11,8 @@ import cn.jeeweb.modules.entity.ShoppingCart;
  * 2015年10月09日
  */
 public interface IShoppingCart{
+	
+	JSONObject querycart(String userphone);
 	
 	int addShoppingCart(String userphone,int sum,String productId);
 	/**

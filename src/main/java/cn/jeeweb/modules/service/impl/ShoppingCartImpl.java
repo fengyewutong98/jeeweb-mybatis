@@ -1,13 +1,5 @@
 package cn.jeeweb.modules.service.impl;
 
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.sound.midi.MidiDevice.Info;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +10,7 @@ import cn.jeeweb.modules.dao.ShoppingCartDao;
 import cn.jeeweb.modules.entity.ProductCart;
 import cn.jeeweb.modules.entity.ShoppingCart;
 import cn.jeeweb.modules.service.IShoppingCart;
+import net.sf.json.JSONObject;
 
 
 /**
@@ -88,20 +81,22 @@ public class ShoppingCartImpl implements IShoppingCart{
 		// TODO Auto-generated method stub
 		log.info("通过查询用户userphone");
 		ShoppingCart shoppingCart = shoppingCartDao.queryShopp(userphone);
+		log.info("查询购物车"+shoppingCart);
+		int i=0;
 		if(shoppingCart==null) {
 			ShoppingCart shoppingCart1 = new ShoppingCart();
 			shoppingCart1.setUserPhone(userphone);
-			int i =shoppingCartDao.addShoppingCart(shoppingCart1);
-			if(i>0) {
-				ProductCart productCart = new ProductCart();
-				productCart.setProductId(Integer.valueOf(productId));
-				productCart.setCartId(i);
-				productCart.setAmount(mun);
-				productCartDao.addProductCart(productCart);
-			}
-			return i;
+			shoppingCart1.setCartStatus("0");
+			i =shoppingCartDao.addShoppingCart(shoppingCart1);
 		}
-		return 0;
+		ProductCart productCart = new ProductCart();
+		productCart.setProductId(Integer.valueOf(productId));
+		productCart.setCartId(i);
+		productCart.setAmount(mun);
+		productCart.setUserPhone(userphone);
+		productCartDao.addProductCart(productCart);
+		log.info("商品加入购物车成功");
+		return i;
 	}
 
 	@Override
@@ -111,9 +106,15 @@ public class ShoppingCartImpl implements IShoppingCart{
 		log.info("1111111111111");
 		return  shoppingCartDao.queryShopp(userphone);
 	}
-	
-	
-	
-	
+
+	@Override
+	public JSONObject querycart(String userphone) {
+		// TODO Auto-generated method stub
+		log.info("调用购物车关联表");
+		ProductCart productCart = productCartDao.querycart(userphone);
+		log.info("查询购物车");
+		
+		return null;
+	}
 	
 }

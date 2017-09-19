@@ -17,6 +17,12 @@ import cn.jeeweb.modules.entity.ProductCart;
 public interface ProductCartDao {
 
 	/**
+	 * 查询购物车
+	 * @param userphone
+	 * @return
+	 */
+	ProductCart querycart(String userphone);
+	/**
 	 * 新增
 	 * @param productCart
 	 * @return
