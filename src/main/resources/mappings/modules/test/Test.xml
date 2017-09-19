@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cn.jeeweb.modules.dao.TestDao">
+
+	<!-- 映射结果集 -->
+	<resultMap id="testResultMap" type="cn.jeeweb.modules.entity.Test">
+    	<result property="sysname" column="SYSNAME" jdbcType="VARCHAR"/>
+    	<result property="faceSys" column="FACE_SYS" jdbcType="VARCHAR"/>
+    	<result property="faceTable" column="FACE_TABLE" jdbcType="VARCHAR"/>
+    	<result property="faceType" column="FACE_TYPE" jdbcType="VARCHAR"/>
+    	<result property="faceRate" column="FACE_RATE" jdbcType="VARCHAR"/>
+    	<result property="insertTime" column="INSERT_TIME" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="testColumnList">
+	    <![CDATA[
+			SYSNAME,FACE_SYS,FACE_TABLE,FACE_TYPE,FACE_RATE,INSERT_TIME
+	    ]]>
+	</sql>
+	
+	<!-- 根据主键查询 -->
+	<select id="selectById" resultMap="testResultMap"  parameterType="java.lang.Integer">
+		SELECT <include refid="testColumnList" />
+	    <![CDATA[
+	    FROM test 
+        WHERE 
+	    ]]>
+	</select>
+	
+	<!-- 根据条件查询 -->
+	<select id="selectByCondition" resultMap="testResultMap"   parameterType="cn.jeeweb.modules.entity.Test">
+		SELECT <include refid="testColumnList" />
+	    <![CDATA[
+	    FROM test 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="sysname != null">
+					AND SYSNAME = #{sysname,jdbcType=VARCHAR}
+			   </if>
+		       <if test="faceSys != null">
+					AND FACE_SYS = #{faceSys,jdbcType=VARCHAR}
+			   </if>
+		       <if test="faceTable != null">
+					AND FACE_TABLE = #{faceTable,jdbcType=VARCHAR}
+			   </if>
+		       <if test="faceType != null">
+					AND FACE_TYPE = #{faceType,jdbcType=VARCHAR}
+			   </if>
+		       <if test="faceRate != null">
+					AND FACE_RATE = #{faceRate,jdbcType=VARCHAR}
+			   </if>
+		       <if test="insertTime != null">
+					AND INSERT_TIME = #{insertTime,jdbcType=TIMESTAMP}
+			   </if>
+		</where>
+	</select>
+	
+	<!-- 根据ID删除 -->
+    <delete id="deleteById"  parameterType="java.lang.String">
+	    <![CDATA[
+	        DELETE FROM test 
+	        WHERE
+	    ]]>
+    </delete>
+   
+  	
+  	<!-- 根据参数对象中有值的进行插入-->
+	<insert id="insert" parameterType="cn.jeeweb.modules.entity.Test" >
+		insert into test
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	     	<if test="sysname != null" >
+		    SYSNAME,
+		  	</if>
+	     	<if test="faceSys != null" >
+		    FACE_SYS,
+		  	</if>
+	     	<if test="faceTable != null" >
+		    FACE_TABLE,
+		  	</if>
+	     	<if test="faceType != null" >
+		    FACE_TYPE,
+		  	</if>
+	     	<if test="faceRate != null" >
+		    FACE_RATE,
+		  	</if>
+	     	<if test="insertTime != null" >
+		    INSERT_TIME,
+		  	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	     	<if test="sysname != null" >
+		    #{sysname,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="faceSys != null" >
+		    #{faceSys,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="faceTable != null" >
+		    #{faceTable,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="faceType != null" >
+		    #{faceType,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="faceRate != null" >
+		    #{faceRate,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="insertTime != null" >
+		    #{insertTime,jdbcType=TIMESTAMP},
+		  	</if>
+		</trim>
+	</insert>
+	
+	
+	<!-- 根据ID进行更新 -->
+	<update id="updateById"  parameterType="cn.jeeweb.modules.entity.Test">
+		update test
+		<set>
+			<if test="sysname != null" >
+			 SYSNAME = #{sysname,jdbcType=VARCHAR},
+			</if>
+			<if test="faceSys != null" >
+			 FACE_SYS = #{faceSys,jdbcType=VARCHAR},
+			</if>
+			<if test="faceTable != null" >
+			 FACE_TABLE = #{faceTable,jdbcType=VARCHAR},
+			</if>
+			<if test="faceType != null" >
+			 FACE_TYPE = #{faceType,jdbcType=VARCHAR},
+			</if>
+			<if test="faceRate != null" >
+			 FACE_RATE = #{faceRate,jdbcType=VARCHAR},
+			</if>
+			<if test="insertTime != null" >
+			 INSERT_TIME = #{insertTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where
+	</update>
+
+	<!-- 唯一性校验，返回重复数据的数量 -->
+	<select id="getCountOfUKByObj" resultType="java.lang.Integer" 
+			parameterType="cn.jeeweb.modules.entity.Test">
+		SELECT
+		 COUNT(1) AS NUM
+		 <![CDATA[
+	    FROM test
+	    ]]>
+		<where>
+			1=1 
+		</where>
+	</select>
+
+<!-- 根据条件查询 -->
+	<select id="getTestList" resultMap="testResultMap"   parameterType="hashmap">
+		SELECT <include refid="testColumnList" />
+	    <![CDATA[
+	    FROM test 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="sysname != null">
+					AND SYSNAME = #{sysname,jdbcType=VARCHAR}
+			   </if>
+		       <if test="faceSys != null">
+					AND FACE_SYS = #{faceSys,jdbcType=VARCHAR}
+			   </if>
+		       <if test="faceTable != null">
+					AND FACE_TABLE = #{faceTable,jdbcType=VARCHAR}
+			   </if>
+		       <if test="faceType != null">
+					AND FACE_TYPE = #{faceType,jdbcType=VARCHAR}
+			   </if>
+		       <if test="faceRate != null">
+					AND FACE_RATE = #{faceRate,jdbcType=VARCHAR}
+			   </if>
+		       <if test="insertTime != null">
+					AND INSERT_TIME = #{insertTime,jdbcType=TIMESTAMP}
+			   </if>
+		</where>
+	</select>
+	
+	
+	
+	
+</mapper>
+

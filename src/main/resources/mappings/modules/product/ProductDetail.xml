@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cn.jeeweb.modules.dao.ProductDetailDao">
+
+	<!-- 映射结果集 -->
+	<resultMap id="productDetailResultMap" type="cn.jeeweb.modules.entity.ProductDetail">
+		<id property="productId" column="product_id" jdbcType="INTEGER"/>
+    	<result property="productBelogTwoCategoryId" column="product_belog_two_category_id" jdbcType="INTEGER"/>
+    	<result property="productNum" column="product_num" jdbcType="INTEGER"/>
+    	<result property="productName" column="product_name" jdbcType="VARCHAR"/>
+    	<result property="productDescribe" column="product_describe" jdbcType="VARCHAR"/>
+    	<result property="productPrice" column="product_price" jdbcType="REAL"/>
+    	<result property="imgurl" column="imgurl" jdbcType="VARCHAR"/>
+    	<result property="originAddress" column="origin_address" jdbcType="VARCHAR"/>
+    	<result property="period" column="period" jdbcType="VARCHAR"/>
+    	<result property="scale" column="scale" jdbcType="VARCHAR"/>
+    	<result property="taste" column="taste" jdbcType="VARCHAR"/>
+    	<result property="productBelogThreeCategoryId" column="product_belog_three_category_id" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="productDetailColumnList">
+	    <![CDATA[
+			product_id,product_belog_two_category_id,product_num,product_name,product_describe,product_price,imgurl,origin_address,period,scale,taste,product_belog_three_category_id
+	    ]]>
+	</sql>
+	<!-- 根据条件查询 -->
+	<select id="getProductDetailList" resultMap="productDetailResultMap"   parameterType="hashmap">
+		SELECT <include refid="productDetailColumnList" />
+	    <![CDATA[
+	    FROM product_detail 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="productId != null">
+					AND product_id = #{productId,jdbcType=INTEGER}
+			   </if>
+		       <if test="productBelogTwoCategoryId != null">
+					AND product_belog_two_category_id = #{productBelogTwoCategoryId,jdbcType=INTEGER}
+			   </if>
+		       <if test="productNum != null">
+					AND product_num = #{productNum,jdbcType=INTEGER}
+			   </if>
+		       <if test="productName != null">
+					AND product_name = #{productName,jdbcType=VARCHAR}
+			   </if>
+		       <if test="productDescribe != null">
+					AND product_describe = #{productDescribe,jdbcType=VARCHAR}
+			   </if>
+		       <if test="productPrice != null">
+					AND product_price = #{productPrice,jdbcType=REAL}
+			   </if>
+		       <if test="imgurl != null">
+					AND imgurl = #{imgurl,jdbcType=VARCHAR}
+			   </if>
+		       <if test="originAddress != null">
+					AND origin_address = #{originAddress,jdbcType=VARCHAR}
+			   </if>
+		       <if test="period != null">
+					AND period = #{period,jdbcType=VARCHAR}
+			   </if>
+		       <if test="scale != null">
+					AND scale = #{scale,jdbcType=VARCHAR}
+			   </if>
+		       <if test="taste != null">
+					AND taste = #{taste,jdbcType=VARCHAR}
+			   </if>
+		       <if test="productBelogThreeCategoryId != null">
+					AND product_belog_three_category_id = #{productBelogThreeCategoryId,jdbcType=INTEGER}
+			   </if>
+		</where>
+	</select>
+	
+	<!-- 根据条件查询 -->
+	<select id="getProductId" resultMap="productDetailResultMap"   parameterType="hashmap">
+		SELECT <include refid="productDetailColumnList" />
+	    <![CDATA[
+	    FROM product_detail 
+	   		 where product_id = #{productId,jdbcType=INTEGER}
+	    ]]>
+	</select>
+	
+</mapper>
+

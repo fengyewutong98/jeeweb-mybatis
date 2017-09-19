@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cn.jeeweb.modules.dao.CategoryDao">
+
+	<!-- 映射结果集 -->
+	<resultMap id="categoryResultMap" type="cn.jeeweb.modules.entity.Category">
+		<id property="categoryId" column="category_id" jdbcType="INTEGER"/>
+    	<result property="secondCategoryId" column="second_category_id" jdbcType="INTEGER"/>
+    	<result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
+    	<result property="categoryLeve" column="category_leve" jdbcType="INTEGER"/>
+    	<result property="belongFirstLeve" column="belong_first_leve" jdbcType="INTEGER"/>
+    	<result property="claStyle" column="clastyle" jdbcType="VARCHAR"/>
+    	
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="categoryColumnList">
+	    <![CDATA[
+			category_id,second_category_id,category_name,category_leve,belong_first_leve,clastyle
+	    ]]>
+	</sql>
+	
+	<!-- 根据条件查询 -->
+	<select id="getCategoryList" resultMap="categoryResultMap"   parameterType="hashmap">
+		SELECT <include refid="categoryColumnList" />
+	    <![CDATA[
+	    FROM category 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="categoryId != null">
+					AND category_id = #{categoryId,jdbcType=INTEGER}
+			   </if>
+		       <if test="secondCategoryId != null">
+					AND second_category_id = #{secondCategoryId,jdbcType=INTEGER}
+			   </if>
+		       <if test="categoryName != null">
+					AND category_name = #{categoryName,jdbcType=VARCHAR}
+			   </if>
+		       <if test="categoryLeve != null">
+					AND category_leve = #{categoryLeve,jdbcType=INTEGER}
+			   </if>
+		       <if test="belongFirstLeve != null">
+					AND belong_first_leve = #{belongFirstLeve,jdbcType=INTEGER}
+			   </if>
+		</where>
+		order by category_id asc
+	</select>
+	
+</mapper>
+

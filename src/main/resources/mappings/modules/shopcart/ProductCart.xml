@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cn.jeeweb.modules.dao.ProductCartDao">
+
+	<!-- 映射结果集 -->
+	<resultMap id="productCartResultMap" type="cn.jeeweb.modules.entity.ProductCart">
+		<id property="id" column="id" jdbcType="INTEGER"/>
+    	<result property="cartId" column="cart_id" jdbcType="INTEGER"/>
+    	<result property="productId" column="product_id" jdbcType="INTEGER"/>
+    	<result property="amount" column="amount" jdbcType="INTEGER"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="productCartColumnList">
+	    <![CDATA[
+			id,cart_id,product_id,amount
+	    ]]>
+	</sql>
+	
+	<!-- 根据参数对象中有值的进行插入-->
+	<insert id="addProductCart" parameterType="cn.jeeweb.modules.entity.ProductCart" useGeneratedKeys="true" keyProperty="id">
+		insert into product_cart
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	     	<if test="id != null" >
+		    id,
+		  	</if>
+	     	<if test="cartId != null" >
+		    cart_id,
+		  	</if>
+	     	<if test="productId != null" >
+		    product_id,
+		  	</if>
+	     	<if test="amount != null" >
+		    amount,
+		  	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	     	<if test="id != null" >
+		    #{id,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="cartId != null" >
+		    #{cartId,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="productId != null" >
+		    #{productId,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="amount != null" >
+		    #{amount,jdbcType=INTEGER},
+		  	</if>
+		</trim>
+	</insert>	
+	<!-- 根据条件查询 -->
+	<select id="getProductCartList" resultMap="productCartResultMap"   parameterType="hashmap">
+		SELECT <include refid="productCartColumnList" />
+	    <![CDATA[
+	    FROM product_cart 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="id != null">
+					AND id = #{id,jdbcType=INTEGER}
+			   </if>
+		       <if test="cartId != null">
+					AND cart_id = #{cartId,jdbcType=INTEGER}
+			   </if>
+		       <if test="productId != null">
+					AND product_id = #{productId,jdbcType=INTEGER}
+			   </if>
+		       <if test="amount != null">
+					AND amount = #{amount,jdbcType=INTEGER}
+			   </if>
+		</where>
+	</select>
+	
+</mapper>
+

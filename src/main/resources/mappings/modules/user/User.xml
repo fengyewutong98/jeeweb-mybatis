@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cn.jeeweb.modules.dao.UserDao">
+
+	<!-- 映射结果集 -->
+	<resultMap id="userResultMap" type="cn.jeeweb.modules.entity.User">
+		<id property="userId" column="user_id" jdbcType="INTEGER"/>
+    	<result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+    	<result property="password" column="password" jdbcType="VARCHAR"/>
+    	<result property="userName" column="user_name" jdbcType="VARCHAR"/>
+    	<result property="img" column="img" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="userColumnList">
+	    <![CDATA[
+			user_id,mobile,password,user_name,img
+	    ]]>
+	</sql>
+	
+	<!-- 根据参数对象中有值的进行插入-->
+	<insert id="addUser" parameterType="cn.jeeweb.modules.entity.User" useGeneratedKeys="true" keyProperty="id">
+		insert into user
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	     	<if test="userId != null" >
+		    user_id,
+		  	</if>
+	     	<if test="mobile != null" >
+		    mobile,
+		  	</if>
+	     	<if test="password != null" >
+		    password,
+		  	</if>
+	     	<if test="userName != null" >
+		    user_name,
+		  	</if>
+	     	<if test="img != null" >
+		    img,
+		  	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	     	<if test="userId != null" >
+		    #{userId,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="mobile != null" >
+		    #{mobile,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="password != null" >
+		    #{password,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="userName != null" >
+		    #{userName,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="img != null" >
+		    #{img,jdbcType=VARCHAR},
+		  	</if>
+		</trim>
+	</insert>
+	
+	<!-- 根据ID删除 -->
+    <delete id="delUser">
+	    <![CDATA[
+	        DELETE FROM user 
+	        WHERE
+	        user_id = #{userId,jdbcType=INTEGER}
+	    ]]>
+    </delete>
+    
+    
+	<!-- 根据ID进行更新 -->
+	<update id="updateUser"  parameterType="cn.jeeweb.modules.entity.User">
+		update user
+		<set>
+			<if test="userId != null" >
+			 user_id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="mobile != null" >
+			 mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null" >
+			 password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null" >
+			 user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null" >
+			 img = #{img,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where
+			user_id = #{userId,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 根据主键查询 -->
+	<select id="getUserById" resultMap="userResultMap">
+		SELECT <include refid="userColumnList" />
+	    <![CDATA[
+	    FROM user 
+        WHERE 
+	        user_id = #{userId,jdbcType=INTEGER}
+	    ]]>
+	</select>
+	
+	<!-- 根据code查询 -->
+	<select id="getUserByCode" resultMap="userResultMap">
+		SELECT <include refid="userColumnList" />
+	    <![CDATA[
+	    FROM user 
+        WHERE 
+	        user_id = #{userId,jdbcType=INTEGER}
+	    ]]>
+	</select>
+	
+	<!-- 根据条件查询 -->
+	<select id="getUserList" resultMap="userResultMap"   parameterType="hashmap">
+		SELECT <include refid="userColumnList" />
+	    <![CDATA[
+	    FROM user 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="userId != null">
+					AND user_id = #{userId,jdbcType=INTEGER}
+			   </if>
+		       <if test="mobile != null">
+					AND mobile = #{mobile,jdbcType=VARCHAR}
+			   </if>
+		       <if test="password != null">
+					AND password = #{password,jdbcType=VARCHAR}
+			   </if>
+		       <if test="userName != null">
+					AND user_name = #{userName,jdbcType=VARCHAR}
+			   </if>
+		       <if test="img != null">
+					AND img = #{img,jdbcType=VARCHAR}
+			   </if>
+		</where>
+	</select>
+	
+	<!-- 根据条件查询 -->
+	<select id="getPageUser" resultMap="userResultMap"   parameterType="hashmap">
+		SELECT <include refid="userColumnList" />
+	    <![CDATA[
+	    FROM user 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="condition!=null and condition.userId != null">
+					AND user_id = #{userId,jdbcType=INTEGER}
+			   </if>
+		       <if test="condition!=null and condition.mobile != null">
+					AND mobile = #{mobile,jdbcType=VARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.password != null">
+					AND password = #{password,jdbcType=VARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.userName != null">
+					AND user_name = #{userName,jdbcType=VARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.img != null">
+					AND img = #{img,jdbcType=VARCHAR}
+			   </if>
+		</where>
+	</select>
+   
+  	<!-- 根据phone查询 -->
+	<select id="getUserByPhone" resultMap="userResultMap">
+		SELECT <include refid="userColumnList" />
+	    <![CDATA[
+	    FROM user 
+        WHERE 
+	        mobile = #{mobile,jdbcType=VARCHAR}
+	    ]]>
+	</select>
+	
+  	
+	
+
+
+	
+	
+	
+	
+</mapper>
+
