@@ -26,7 +26,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</sql>
 	
 	<!-- 根据参数对象中有值的进行插入-->
-	<insert id="addShoppingCart" parameterType="cn.jeeweb.modules.entity.ShoppingCart" useGeneratedKeys="true" keyProperty="cartId">
+	<insert id="addShoppingCart" parameterType="cn.jeeweb.modules.entity.ShoppingCart" useGeneratedKeys="true" keyProperty="cart_id">
 		insert into shopping_cart
 		<trim prefix="(" suffix=")" suffixOverrides="," >
 	     	<if test="cartId != null" >

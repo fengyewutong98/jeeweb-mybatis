@@ -28,12 +28,26 @@ public class ShoppingCart implements Serializable{
 	public ShoppingCart(){
 	}
 	
+
+
 	public String getUserPhone() {
 		return userPhone;
 	}
 
+
+
 	public void setUserPhone(String userPhone) {
 		this.userPhone = userPhone;
+	}
+
+
+
+	public void setCartId(int cartId) {
+		this.cartId = cartId;
+	}
+	
+	public int getCartId() {
+		return this.cartId;
 	}
 
 	public void setCartStatus(String cartStatus) {
@@ -66,28 +80,6 @@ public class ShoppingCart implements Serializable{
 	
 	public Timestamp getCreateDate() {
 		return this.createDate;
-	}
-
-
-
-
-	public int getCartId() {
-		return cartId;
-	}
-
-	public void setCartId(int cartId) {
-		this.cartId = cartId;
-	}
-
-	@Override
-	public String toString() {
-		return  "ShoppingCart ["
-			+ "cartId = " + getCartId() + ","
-			+ "CartStatus = " + getCartStatus() + ","
-			+ "OrderPrice = " + getOrderPrice() + ","
-			+ "UserId = " + getUserId() + ","
-			+ "CreateDate = " + getCreateDate() + ","
-		+"]";
 	}
 	
 }

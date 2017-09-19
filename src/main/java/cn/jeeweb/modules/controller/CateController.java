@@ -2,10 +2,14 @@ package cn.jeeweb.modules.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.jeeweb.modules.common.util.RequestFilter;
+import cn.jeeweb.modules.entity.Category;
 import cn.jeeweb.modules.entity.ShoppingCart;
 import cn.jeeweb.modules.service.IShoppingCart;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -46,7 +52,9 @@ public class CateController {
 	    		ShoppingCart shoppingCart= iShoppingCart.queryShoppingCart(userphone);
 	    		ShoppingCart shoppingCart1 = new ShoppingCart();
 	    		shoppingCart1.setUserPhone(userphone);
+	    		shoppingCart1.setCartStatus("0");
 	    		int i = iShoppingCart.addShoppingCart("", shoppingCart1);
+	    		log.info(i);
 	    		iShoppingCart.addShoppingCart(userphone, Integer.valueOf(num), productId);
 	    		 json.put("returnCode", "000000");
 		         json.put("returnMsg", "成功");
@@ -57,6 +65,7 @@ public class CateController {
 		        json.put("returnMsg", "服务器异常");
 			}
 	    }
+		
 		try {
 		    PrintWriter out = response.getWriter();
 			out.write(callback+'('+json+')'); 
