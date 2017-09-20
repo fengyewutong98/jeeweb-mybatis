@@ -35,13 +35,12 @@ public class ProductDetail implements Serializable{
 	private String taste;
 	//商品所属三级分类
 	private int productBelogThreeCategoryId;
+	//购物车商品数
+	private int num;
 	
-
 	public ProductDetail(){
 	}
 	
-
-
 	public void setProductId(int productId) {
 		this.productId = productId;
 	}
@@ -137,7 +136,13 @@ public class ProductDetail implements Serializable{
 	public int getProductBelogThreeCategoryId() {
 		return this.productBelogThreeCategoryId;
 	}
-	
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
+
 }
 
 

@@ -1,15 +1,21 @@
 package cn.jeeweb.modules.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.jeeweb.modules.dao.ProductCartDao;
+import cn.jeeweb.modules.dao.ProductDetailDao;
 import cn.jeeweb.modules.dao.ShoppingCartDao;
 import cn.jeeweb.modules.entity.ProductCart;
+import cn.jeeweb.modules.entity.ProductDetail;
 import cn.jeeweb.modules.entity.ShoppingCart;
 import cn.jeeweb.modules.service.IShoppingCart;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 
@@ -28,6 +34,9 @@ public class ShoppingCartImpl implements IShoppingCart{
 
 	@Autowired
 	private ProductCartDao productCartDao; 
+	@Autowired
+	private ProductDetailDao productDetailDao;
+	
 	@Override
 	public int addShoppingCart(String tenantId, ShoppingCart shoppingCart) {
 		// TODO Auto-generated method stub说
@@ -88,6 +97,13 @@ public class ShoppingCartImpl implements IShoppingCart{
 			shoppingCart1.setUserPhone(userphone);
 			shoppingCart1.setCartStatus("0");
 			i =shoppingCartDao.addShoppingCart(shoppingCart1);
+			log.info("插入返回的主键==============="+i);
+			ShoppingCart shoppingCart2 = shoppingCartDao.queryShopp(userphone);
+			i= shoppingCart2.getCartId();
+			log.info("查询返回主键--------------------"+i);
+		}else {
+			
+			i= shoppingCart.getCartId();	
 		}
 		ProductCart productCart = new ProductCart();
 		productCart.setProductId(Integer.valueOf(productId));
@@ -108,13 +124,28 @@ public class ShoppingCartImpl implements IShoppingCart{
 	}
 
 	@Override
-	public JSONObject querycart(String userphone) {
+	public JSONArray querycart(String userphone) {
 		// TODO Auto-generated method stub
 		log.info("调用购物车关联表");
-		ProductCart productCart = productCartDao.querycart(userphone);
+		ShoppingCart shoppingCart = shoppingCartDao.queryShopp(userphone);
 		log.info("查询购物车");
+		ProductCart productCart  = new ProductCart();
+		productCart.setCartId(shoppingCart.getCartId());
+		productCart.setUserPhone(userphone);
+		List<ProductCart> list = productCartDao.queryShoppingCart(productCart);
+		List<Integer> list1 = new ArrayList<>();
+		for (ProductCart productCart2 : list) {
+			list1.add(productCart2.getProductId());
+		}
+		List<ProductDetail> list3 = productDetailDao.findByIdsMapToCart(list1);
+		JSONArray jsonarry = new JSONArray();
+		for (int i = 0;i<list3.size();i++) {
+			JSONObject jsonobject = JSONObject.fromObject(list3.get(i));
+			jsonobject.put("num", list.get(i).getAmount());
+			jsonarry.add(jsonobject);
+		}
 		
-		return null;
+		return jsonarry;
 	}
 	
 }

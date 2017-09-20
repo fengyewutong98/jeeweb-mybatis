@@ -18,4 +18,6 @@ public interface ProductDetailDao {
 	
 	ProductDetail getProductId(int productId);
 	
+	List<ProductDetail> findByIdsMapToCart(List<Integer> list);
+	
 }

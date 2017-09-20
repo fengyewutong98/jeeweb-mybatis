@@ -2,7 +2,7 @@ package cn.jeeweb.modules.service;
 
 
 import cn.jeeweb.modules.entity.ShoppingCart;
-import net.sf.json.JSONObject;
+import net.sf.json.JSONArray;
 
 
 /**
@@ -11,8 +11,12 @@ import net.sf.json.JSONObject;
  * 2015年10月09日
  */
 public interface IShoppingCart{
-	
-	JSONObject querycart(String userphone);
+	/**
+	 * 查询购物车
+	 * @param userphone
+	 * @return
+	 */
+	JSONArray querycart(String userphone);
 	
 	int addShoppingCart(String userphone,int sum,String productId);
 	/**

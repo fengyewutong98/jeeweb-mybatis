@@ -85,5 +85,16 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    ]]>
 	</select>
 	
+	<select id="findByIdsMapToCart" resultMap="productDetailResultMap">  
+		SELECT <include refid="productDetailColumnList" />
+	    	FROM product_detail 
+	    	where  product_id IN 
+			 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+			  #{item}  
+			 </foreach>
+			 
+	</select>  
+	
+	
 </mapper>
 

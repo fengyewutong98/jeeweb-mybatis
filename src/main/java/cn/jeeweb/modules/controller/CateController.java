@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.jeeweb.modules.common.util.RequestFilter;
 import cn.jeeweb.modules.service.IShoppingCart;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -84,7 +85,7 @@ public class CateController {
 	@ResponseBody
 	public void querycart(HttpServletRequest request, HttpServletResponse response,
 			String userphone){
-		log.info("添加购物车");
+		log.info("查询购物车");
 	    request = RequestFilter.threadLocalRequest.get();
 	    String  phone = (String) request.getSession().getAttribute("phone");
 	    log.info(userphone);
@@ -97,7 +98,8 @@ public class CateController {
 	        json.put("returnMsg", "请登录失败");
 	    }else {
 	    	try {
-	    		json = iShoppingCart.querycart(userphone);
+	    		JSONArray jsonarray = iShoppingCart.querycart(userphone);
+	    		 json.put("jsonarray", jsonarray);
 	    		 json.put("returnCode", "000000");
 		         json.put("returnMsg", "成功");
 	    	} catch (Exception e) {
