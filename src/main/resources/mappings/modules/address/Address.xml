@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cn.jeeweb.modules.dao.AddressDao">
+
+	<!-- 映射结果集 -->
+	<resultMap id="addressResultMap" type="cn.jeeweb.modules.entity.Address">
+		<id property="addressId" column="address_id" jdbcType="INTEGER"/>
+    	<result property="userId" column="user_id" jdbcType="INTEGER"/>
+    	<result property="addressDetail" column="address_detail" jdbcType="LONGVARCHAR"/>
+    	<result property="recipients" column="recipients" jdbcType="VARCHAR"/>
+    	<result property="telephone" column="telephone" jdbcType="VARCHAR"/>
+    	<result property="defaultaddress" column="defaultaddress" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="addressColumnList">
+	    <![CDATA[
+			address_id,user_id,address_detail,recipients,telephone,defaultaddress
+	    ]]>
+	</sql>
+	<!-- 根据参数对象中有值的进行插入-->
+	<insert id="addAddress" parameterType="cn.jeeweb.modules.entity.Address" useGeneratedKeys="true" keyProperty="addressId">
+		insert into address
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	     	<if test="addressId != null" >
+		    address_id,
+		  	</if>
+	     	<if test="userId != null" >
+		    user_id,
+		  	</if>
+	     	<if test="addressDetail != null" >
+		    address_detail,
+		  	</if>
+	     	<if test="recipients != null" >
+		    recipients,
+		  	</if>
+	     	<if test="telephone != null" >
+		    telephone,
+		  	</if>
+	     	<if test="defaultaddress != null" >
+		    defaultaddress,
+		  	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	     	<if test="addressId != null" >
+		    #{addressId,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="userId != null" >
+		    #{userId,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="addressDetail != null" >
+		    #{addressDetail,jdbcType=LONGVARCHAR},
+		  	</if>
+	     	<if test="recipients != null" >
+		    #{recipients,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="telephone != null" >
+		    #{telephone,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="defaultaddress != null" >
+		    #{defaultaddress,jdbcType=VARCHAR},
+		  	</if>
+		</trim>
+	</insert>
+	<!-- 根据ID删除 -->
+    <delete id="delAddress">
+	    <![CDATA[
+	        DELETE FROM address 
+	        WHERE
+	     	telephone = #{telephone,jdbcType=VARCHAR},
+	    ]]>
+    </delete>
+    
+    <!-- 根据主键查询 -->
+	<select id="getAddressById" resultMap="addressResultMap">
+		SELECT <include refid="addressColumnList" />
+	    <![CDATA[
+	    FROM address 
+        WHERE 
+	        address_id = #{addressId,jdbcType=INTEGER}
+	    ]]>
+	</select>
+	
+	
+</mapper>
+

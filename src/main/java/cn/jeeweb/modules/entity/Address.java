@@ -22,11 +22,24 @@ public class Address implements Serializable{
 	private String recipients;
 	//收件人电话
 	private String telephone;
-	
+	//默认地址
+	private String defaultaddress;
 
 	public Address(){
 	}
 	
+
+
+	public String getDefaultaddress() {
+		return defaultaddress;
+	}
+
+
+
+	public void setDefaultaddress(String defaultaddress) {
+		this.defaultaddress = defaultaddress;
+	}
+
 
 
 	public void setAddressId(int addressId) {
@@ -69,20 +82,6 @@ public class Address implements Serializable{
 		return this.telephone;
 	}
 
-
-
-
-	@Override
-	public String toString() {
-		return  "Address ["
-			+ "AddressId = " + getAddressId() + ","
-			+ "UserId = " + getUserId() + ","
-			+ "AddressDetail = " + getAddressDetail() + ","
-			+ "Recipients = " + getRecipients() + ","
-			+ "Telephone = " + getTelephone() + ","
-		+"]";
-	}
-	
 }
 
 
