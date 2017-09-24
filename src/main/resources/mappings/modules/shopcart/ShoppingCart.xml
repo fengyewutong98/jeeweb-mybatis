@@ -113,5 +113,15 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	
+	  <update id="updateShoppingCart" parameterType="cn.jeeweb.modules.entity.ShoppingCart" >
+	    update shopping_cart
+	    <set>
+	      <if test="cartStatus != null">
+	        cart_status = #{cartStatus,jdbcType=VARCHAR},
+	      </if>
+	    </set>
+	    where cart_id = #{cartId,jdbcType=INTEGER}
+	  </update>
+	
 </mapper>
 
