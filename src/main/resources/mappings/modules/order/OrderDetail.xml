@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+
+<mapper namespace="cn.jeeweb.modules.dao.OrderDetailDao">
+
+	<!-- 映射结果集 -->
+	<resultMap id="orderDetailResultMap" type="cn.jeeweb.modules.entity.OrderDetail">
+		<id property="id" column="Id" jdbcType="INTEGER"/>
+    	<result property="userId" column="user_Id" jdbcType="INTEGER"/>
+    	<result property="orderStatus" column="order_status" jdbcType="VARCHAR"/>
+    	<result property="orderStatement" column="order_statement" jdbcType="VARCHAR"/>
+    	<result property="carId" column="car_id" jdbcType="INTEGER"/>
+    	<result property="createDate" column="create_date" jdbcType="TIMESTAMP"/>
+    	<result property="orderJson" column="order_json" jdbcType="LONGVARCHAR"/>
+    	<result property="orderOwner" column="order_owner" jdbcType="VARCHAR"/>
+    	<result property="orderTelephone" column="order_telephone" jdbcType="VARCHAR"/>
+    	<result property="addressDetail" column="address_detail" jdbcType="VARCHAR"/>
+    	<result property="orderPayAmount" column="order_pay_amount" jdbcType="DECIMAL"/>
+    	<result property="orderUuid" column="order_uuid" jdbcType="VARCHAR"/>
+    	
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="orderDetailColumnList">
+	    <![CDATA[
+			Id,user_Id,order_status,order_statement,car_id,create_date,order_json,order_owner,order_telephone,address_detail,order_pay_amount,order_uuid
+	    ]]>
+	</sql>
+	
+	<!-- 根据参数对象中有值的进行插入-->
+	<insert id="addOrderDetail" parameterType="cn.jeeweb.modules.entity.OrderDetail" useGeneratedKeys="true" keyProperty="id">
+		insert into order_detail
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+	     	<if test="id != null" >
+		    Id,
+		  	</if>
+	     	<if test="userId != null" >
+		    user_Id,
+		  	</if>
+	     	<if test="orderStatus != null" >
+		    order_status,
+		  	</if>
+	     	<if test="orderStatement != null" >
+		    order_statement,
+		  	</if>
+	     	<if test="carId != null" >
+		    car_id,
+		  	</if>
+	     	<if test="createDate != null" >
+		    create_date,
+		  	</if>
+	     	<if test="orderJson != null" >
+		    order_json,
+		  	</if>
+	     	<if test="orderOwner != null" >
+		    order_owner,
+		  	</if>
+	     	<if test="orderTelephone != null" >
+		    order_telephone,
+		  	</if>
+	     	<if test="addressDetail != null" >
+		    address_detail,
+		  	</if>
+	     	<if test="orderPayAmount != null" >
+		    order_pay_amount,
+		  	</if>
+	  		<if test="orderUuid != null" >
+		    order_uuid,
+		  	</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+	     	<if test="id != null" >
+		    #{id,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="userId != null" >
+		    #{userId,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="orderStatus != null" >
+		    #{orderStatus,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="orderStatement != null" >
+		    #{orderStatement,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="carId != null" >
+		    #{carId,jdbcType=INTEGER},
+		  	</if>
+	     	<if test="createDate != null" >
+		    #{createDate,jdbcType=TIMESTAMP},
+		  	</if>
+	     	<if test="orderJson != null" >
+		    #{orderJson,jdbcType=LONGVARCHAR},
+		  	</if>
+	     	<if test="orderOwner != null" >
+		    #{orderOwner,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="orderTelephone != null" >
+		    #{orderTelephone,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="addressDetail != null" >
+		    #{addressDetail,jdbcType=VARCHAR},
+		  	</if>
+	     	<if test="orderPayAmount != null" >
+		    #{orderPayAmount,jdbcType=DECIMAL},
+		  	</if>
+		  	<if test="orderUuid != null" >
+		    #{orderUuid,jdbcType=VARCHAR},
+		  	</if>
+		</trim>
+	</insert>
+	
+	<!-- 根据ID删除 -->
+    <delete id="delOrderDetail">
+	    <![CDATA[
+	        DELETE FROM order_detail 
+	        WHERE
+	        Id = #{id,jdbcType=INTEGER}
+	    ]]>
+    </delete>
+    
+    
+	<!-- 根据ID进行更新 -->
+	<update id="updateOrderDetail"  parameterType="cn.jeeweb.modules.entity.OrderDetail">
+		update order_detail
+		<set>
+			<if test="id != null" >
+			 Id = #{id,jdbcType=INTEGER},
+			</if>
+			<if test="userId != null" >
+			 user_Id = #{userId,jdbcType=INTEGER},
+			</if>
+			<if test="orderStatus != null" >
+			 order_status = #{orderStatus,jdbcType=VARCHAR},
+			</if>
+			<if test="orderStatement != null" >
+			 order_statement = #{orderStatement,jdbcType=VARCHAR},
+			</if>
+			<if test="carId != null" >
+			 car_id = #{carId,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null" >
+			 create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="orderJson != null" >
+			 order_json = #{orderJson,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="orderOwner != null" >
+			 order_owner = #{orderOwner,jdbcType=VARCHAR},
+			</if>
+			<if test="orderTelephone != null" >
+			 order_telephone = #{orderTelephone,jdbcType=VARCHAR},
+			</if>
+			<if test="addressDetail != null" >
+			 address_detail = #{addressDetail,jdbcType=VARCHAR},
+			</if>
+			<if test="orderPayAmount != null" >
+			 order_pay_amount = #{orderPayAmount,jdbcType=DECIMAL},
+			</if>
+			<if test="orderUuid != null" >
+			 order_uuid = #{orderUuid,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where
+			Id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 根据主键查询 -->
+	<select id="getOrderDetailById" resultMap="orderDetailResultMap">
+		SELECT <include refid="orderDetailColumnList" />
+	    <![CDATA[
+	    FROM order_detail 
+        WHERE 
+	        Id = #{id,jdbcType=INTEGER}
+	    ]]>
+	</select>
+	
+	
+	<!-- 根据code查询 -->
+	<select id="getOrderDetailByCode" resultMap="orderDetailResultMap">
+		SELECT <include refid="orderDetailColumnList" />
+	    <![CDATA[
+	    FROM order_detail 
+        WHERE 
+	        Id = #{id,jdbcType=INTEGER}
+	    ]]>
+	</select>
+	
+	<!-- 根据条件查询 -->
+	<select id="getOrderDetailList" resultMap="orderDetailResultMap"   parameterType="hashmap">
+		SELECT <include refid="orderDetailColumnList" />
+	    <![CDATA[
+	    FROM order_detail 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="id != null">
+					AND Id = #{id,jdbcType=INTEGER}
+			   </if>
+		       <if test="userId != null">
+					AND user_Id = #{userId,jdbcType=INTEGER}
+			   </if>
+		       <if test="orderStatus != null">
+					AND order_status = #{orderStatus,jdbcType=VARCHAR}
+			   </if>
+		       <if test="orderStatement != null">
+					AND order_statement = #{orderStatement,jdbcType=VARCHAR}
+			   </if>
+		       <if test="carId != null">
+					AND car_id = #{carId,jdbcType=INTEGER}
+			   </if>
+		       <if test="createDate != null">
+					AND create_date = #{createDate,jdbcType=TIMESTAMP}
+			   </if>
+		       <if test="orderJson != null">
+					AND order_json = #{orderJson,jdbcType=LONGVARCHAR}
+			   </if>
+		       <if test="orderOwner != null">
+					AND order_owner = #{orderOwner,jdbcType=VARCHAR}
+			   </if>
+		       <if test="orderTelephone != null">
+					AND order_telephone = #{orderTelephone,jdbcType=VARCHAR}
+			   </if>
+		       <if test="addressDetail != null">
+					AND address_detail = #{addressDetail,jdbcType=VARCHAR}
+			   </if>
+		       <if test="orderPayAmount != null">
+					AND order_pay_amount = #{orderPayAmount,jdbcType=DECIMAL}
+			   </if>
+		</where>
+	</select>
+	
+	<!-- 根据条件查询 -->
+	<select id="getPageOrderDetail" resultMap="orderDetailResultMap"   parameterType="hashmap">
+		SELECT <include refid="orderDetailColumnList" />
+	    <![CDATA[
+	    FROM order_detail 
+	    ]]>
+        <where>	  
+        	1=1      				
+		       <if test="condition!=null and condition.id != null">
+					AND Id = #{id,jdbcType=INTEGER}
+			   </if>
+		       <if test="condition!=null and condition.userId != null">
+					AND user_Id = #{userId,jdbcType=INTEGER}
+			   </if>
+		       <if test="condition!=null and condition.orderStatus != null">
+					AND order_status = #{orderStatus,jdbcType=VARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.orderStatement != null">
+					AND order_statement = #{orderStatement,jdbcType=VARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.carId != null">
+					AND car_id = #{carId,jdbcType=INTEGER}
+			   </if>
+		       <if test="condition!=null and condition.createDate != null">
+					AND create_date = #{createDate,jdbcType=TIMESTAMP}
+			   </if>
+		       <if test="condition!=null and condition.orderJson != null">
+					AND order_json = #{orderJson,jdbcType=LONGVARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.orderOwner != null">
+					AND order_owner = #{orderOwner,jdbcType=VARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.orderTelephone != null">
+					AND order_telephone = #{orderTelephone,jdbcType=VARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.addressDetail != null">
+					AND address_detail = #{addressDetail,jdbcType=VARCHAR}
+			   </if>
+		       <if test="condition!=null and condition.orderPayAmount != null">
+					AND order_pay_amount = #{orderPayAmount,jdbcType=DECIMAL}
+			   </if>
+		</where>
+	</select>
+   
+  	
+  		<!-- 根据主键查询 -->
+	<select id="queryOrder" resultMap="orderDetailResultMap">
+		SELECT <include refid="orderDetailColumnList" />
+	    <![CDATA[
+	    FROM order_detail 
+        WHERE 
+	        user_Id = #{userId,jdbcType=INTEGER}
+	    order by create_date  desc 
+	    ]]>
+	</select>
+	
+</mapper>
+
