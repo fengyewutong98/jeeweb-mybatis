@@ -17,6 +17,8 @@ import cn.jeeweb.modules.entity.ProductCart;
 public interface ProductCartDao {
 
 	
+	
+	List<ProductCart> insertCodeBatch (List<ProductCart> listcart);
 	/**
 	 * 查询购物车订单
 	 * @param userphone

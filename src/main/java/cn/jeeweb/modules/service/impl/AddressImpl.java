@@ -28,7 +28,7 @@ public class AddressImpl implements IAddress{
 	@Override
 	public int addAddress(String tenantId, Address address) {
 		// TODO Auto-generated method stub
-		return 0;
+		return addressDao.addAddress(address);
 	}
 
 	@Override
@@ -71,6 +71,12 @@ public class AddressImpl implements IAddress{
 	public Page<Address> getPageAddress(String tenantId, Map<String, Object> condition, Page<Address> page) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<Address> queryAddress(String phone) {
+		// TODO Auto-generated method stub
+		return addressDao.queryAddress(phone);
 	}
 	
 

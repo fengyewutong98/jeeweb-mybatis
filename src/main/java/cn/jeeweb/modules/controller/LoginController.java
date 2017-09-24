@@ -51,9 +51,7 @@ public class LoginController {
 			log.info("错误异常"+e);
 		}
 		session.setAttribute("phone",user.getMobile());
-		
-		String phone =  (String) request.getSession().getAttribute("phone");
-		log.info(phone);
+		session.setAttribute("userId",user.getUserId());
 		
 		log.info("--查询成功--");
 		

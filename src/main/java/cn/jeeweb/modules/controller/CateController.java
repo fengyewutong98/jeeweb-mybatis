@@ -88,18 +88,18 @@ public class CateController {
 		log.info("查询购物车");
 	    request = RequestFilter.threadLocalRequest.get();
 	    String  phone = (String) request.getSession().getAttribute("phone");
-	    log.info(userphone);
+	    log.info(phone);
 		log.info("--添加成功--");
 		String callback = request.getParameter("callback"); 
 		JSONObject json = new JSONObject();
 		response.setContentType("text/javascript");
-	    if(userphone == null) {
+	    if(phone == null) {
 	        json.put("returnCode", "111111");
 	        json.put("returnMsg", "请登录失败");
 	    }else {
 	    	try {
-	    		JSONArray jsonarray = iShoppingCart.querycart(userphone);
-	    		 json.put("jsonarray", jsonarray);
+	    		JSONObject jsonobject = iShoppingCart.querycart(phone);
+	    		 json.put("jsonobject", jsonobject);
 	    		 json.put("returnCode", "000000");
 		         json.put("returnMsg", "成功");
 	    	} catch (Exception e) {

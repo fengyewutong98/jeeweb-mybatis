@@ -61,6 +61,12 @@ public interface AddressDao {
 	 * @return
 	 */
 	List<Address> getAddressList(Map<String,Object> condition);
+	/**
+	 * 查询地址信息
+	 * @param phone
+	 * @return
+	 */
+	List<Address> queryAddress(String phone);
 	
 	
 	

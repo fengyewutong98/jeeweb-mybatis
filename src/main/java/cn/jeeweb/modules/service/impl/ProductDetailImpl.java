@@ -34,5 +34,12 @@ public class ProductDetailImpl implements IProductDetail{
 		// TODO Auto-generated method stub
 		return productDetailDao.getProductId(productId);
 	}
+
+	@Override
+	public List<ProductDetail> findByIdsMapToCart(List<Integer> list) {
+		// TODO Auto-generated method stub
+		return productDetailDao.findByIdsMapToCart(list);
+	}
+	
 	
 }

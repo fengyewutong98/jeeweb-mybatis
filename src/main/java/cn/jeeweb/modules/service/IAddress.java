@@ -88,4 +88,10 @@ public interface IAddress{
 	 * @throws BusinessException
 	 */
 	Page<Address> getPageAddress(String tenantId,Map<String,Object> condition,Page<Address> page);
+	/**
+	 * 查询当前用户地址信息
+	 * @param phone
+	 * @return
+	 */
+	List<Address> queryAddress(String phone);
 }

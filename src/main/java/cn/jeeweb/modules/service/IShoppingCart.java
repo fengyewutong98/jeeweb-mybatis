@@ -2,7 +2,7 @@ package cn.jeeweb.modules.service;
 
 
 import cn.jeeweb.modules.entity.ShoppingCart;
-import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 /**
@@ -16,7 +16,7 @@ public interface IShoppingCart{
 	 * @param userphone
 	 * @return
 	 */
-	JSONArray querycart(String userphone);
+	JSONObject querycart(String userphone);
 	
 	int addShoppingCart(String userphone,int sum,String productId);
 	/**

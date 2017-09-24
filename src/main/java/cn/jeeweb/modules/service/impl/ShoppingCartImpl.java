@@ -3,6 +3,7 @@ package cn.jeeweb.modules.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -124,10 +125,17 @@ public class ShoppingCartImpl implements IShoppingCart{
 	}
 
 	@Override
-	public JSONArray querycart(String userphone) {
+	public JSONObject querycart(String userphone) {
 		// TODO Auto-generated method stub
 		log.info("调用购物车关联表");
 		ShoppingCart shoppingCart = shoppingCartDao.queryShopp(userphone);
+		JSONObject jsonObject = new JSONObject();
+		JSONArray jsonarry = new JSONArray();
+		jsonObject.put("shoppingCart", shoppingCart);
+		if(shoppingCart==null) {
+			log.info("购物车无订单");
+			return jsonObject;
+		}
 		log.info("查询购物车");
 		ProductCart productCart  = new ProductCart();
 		productCart.setCartId(shoppingCart.getCartId());
@@ -138,14 +146,13 @@ public class ShoppingCartImpl implements IShoppingCart{
 			list1.add(productCart2.getProductId());
 		}
 		List<ProductDetail> list3 = productDetailDao.findByIdsMapToCart(list1);
-		JSONArray jsonarry = new JSONArray();
 		for (int i = 0;i<list3.size();i++) {
 			JSONObject jsonobject = JSONObject.fromObject(list3.get(i));
 			jsonobject.put("num", list.get(i).getAmount());
 			jsonarry.add(jsonobject);
 		}
-		
-		return jsonarry;
+		jsonObject.put("jsonarry", jsonarry);
+		return jsonObject;
 	}
 	
 }

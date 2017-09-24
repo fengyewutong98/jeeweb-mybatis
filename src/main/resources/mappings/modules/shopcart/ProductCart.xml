@@ -61,6 +61,25 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		  	</if>
 		</trim>
 	</insert>	
+	<!-- 批量插入生成的兑换码 -->
+     <insert id ="insertCodeBatch" parameterType="java.util.List" >
+            <selectKey resultType ="java.lang.Integer" keyProperty= "id"
+                 order= "AFTER">
+                SELECT LAST_INSERT_ID()
+            </selectKey >
+           insert into product_cart
+           ( id,cart_id, product_id, amount,user_phone,)
+           values
+            <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+                (
+                #{reddemCode.id}, #{reddemCode.cartId},
+                #{reddemCode.productId},
+                #{reddemCode.amount},
+                #{reddemCode.userPhone}
+                )
+            </foreach >
+     </insert >
+	
 	<!-- 根据条件查询 -->
 	<select id="getProductCartList" resultMap="productCartResultMap"   parameterType="hashmap">
 		SELECT <include refid="productCartColumnList" />

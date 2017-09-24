@@ -28,5 +28,12 @@ public interface IProductDetail{
 	 * @param productId
 	 */
 	ProductDetail getProductDetail(int productId);
+	
+	/**
+	 * 根据Id 查询商品
+	 * @param list
+	 * @return
+	 */
+	List<ProductDetail>findByIdsMapToCart(List<Integer> list);
 
 }
