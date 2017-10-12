@@ -117,6 +117,16 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		  product_cart  where  user_phone =#{userPhone,jdbcType=VARCHAR} AND cart_id = #{cartId,jdbcType=INTEGER}
 		GROUP BY product_id 
 	</select>
+	<delete id="delProductCart"    parameterType="cn.jeeweb.modules.entity.ProductCart">
+		delete	   
+		 <![CDATA[
+	    FROM product_cart 
+	    ]]>
+        <where>	  
+				cart_id = #{cartId,jdbcType=INTEGER}
+				AND product_id = #{productId,jdbcType=INTEGER}
+		</where>
+	</delete>
 	
 </mapper>
 

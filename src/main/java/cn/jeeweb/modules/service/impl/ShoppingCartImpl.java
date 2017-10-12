@@ -141,17 +141,20 @@ public class ShoppingCartImpl implements IShoppingCart{
 		productCart.setCartId(shoppingCart.getCartId());
 		productCart.setUserPhone(userphone);
 		List<ProductCart> list = productCartDao.queryShoppingCart(productCart);
-		List<Integer> list1 = new ArrayList<>();
-		for (ProductCart productCart2 : list) {
-			list1.add(productCart2.getProductId());
+		if(list.size()>0) {
+			List<Integer> list1 = new ArrayList<>();
+			for (ProductCart productCart2 : list) {
+				list1.add(productCart2.getProductId());
+			}
+			List<ProductDetail> list3 = productDetailDao.findByIdsMapToCart(list1);
+			for (int i = 0;i<list3.size();i++) {
+				JSONObject jsonobject = JSONObject.fromObject(list3.get(i));
+				jsonobject.put("num", list.get(i).getAmount());
+				jsonarry.add(jsonobject);
+			}
+			jsonObject.put("jsonarry", jsonarry);
 		}
-		List<ProductDetail> list3 = productDetailDao.findByIdsMapToCart(list1);
-		for (int i = 0;i<list3.size();i++) {
-			JSONObject jsonobject = JSONObject.fromObject(list3.get(i));
-			jsonobject.put("num", list.get(i).getAmount());
-			jsonarry.add(jsonobject);
-		}
-		jsonObject.put("jsonarry", jsonarry);
+		
 		return jsonObject;
 	}
 	

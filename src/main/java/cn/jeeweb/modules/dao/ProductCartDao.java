@@ -16,8 +16,17 @@ import cn.jeeweb.modules.entity.ProductCart;
  */
 public interface ProductCartDao {
 
-	
-	
+	/**
+	 * 删除delete
+	 * @param map
+	 * @return
+	 */
+	int delProductCart(ProductCart productCart);
+	/**
+	 * 
+	 * @param listcart
+	 * @return
+	 */
 	List<ProductCart> insertCodeBatch (List<ProductCart> listcart);
 	/**
 	 * 查询购物车订单

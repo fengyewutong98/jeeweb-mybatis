@@ -93,5 +93,5 @@ public interface IAddress{
 	 * @param phone
 	 * @return
 	 */
-	List<Address> queryAddress(String phone);
+	List<Address> queryAddress(Integer userId);
 }

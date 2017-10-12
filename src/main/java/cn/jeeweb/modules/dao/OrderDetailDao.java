@@ -21,7 +21,7 @@ public interface OrderDetailDao {
 	 * @param userId
 	 * @return
 	 */
-	List<OrderDetail> queryOrder(Integer userId);
+	List<OrderDetail> queryOrder(OrderDetail orderDetail);
 	/**
 	 * 新增
 	 * @param orderDetail

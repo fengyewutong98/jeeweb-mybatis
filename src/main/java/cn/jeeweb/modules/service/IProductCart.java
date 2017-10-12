@@ -24,24 +24,6 @@ public interface IProductCart{
 	int addProductCart(String tenantId,ProductCart  productCart);
 	
 	/**
-	 * 根据ids删除
-	 * @param tenantId 租户id
-	 * @param ids
-	 * @return
-	 * @throws BusinessException
-	 */
-	int delProductCart(String tenantId,int[] ids);
-	
-	/**
-	 * 根据id删除
-	 * @param tenantId 租户id
-	 * @param id
-	 * @return
-	 * @throws BusinessException
-	 */
-	int delProductCart(String tenantId,int id);
-	
-	/**
 	 * 更新
 	 * @param tenantId 租户id
 	 * @param productCart
@@ -76,5 +58,13 @@ public interface IProductCart{
 	 * @throws BusinessException
 	 */
 	List<ProductCart> getProductCartList(String tenantId,Map<String, Object> condition);
+
+	/**
+	 * 删除carId 里的productId
+	 * @param carId
+	 * @param productId
+	 * @return
+	 */
+	int delProductCart(String carId, String productId);
 	
 }

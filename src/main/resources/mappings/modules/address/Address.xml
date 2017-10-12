@@ -68,7 +68,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		</trim>
 	</insert>
 	<!-- 根据ID删除 -->
-    <delete id="delAddress">
+    <delete id="delAddress" parameterType="cn.jeeweb.modules.entity.Address">
 	    <![CDATA[
 	        DELETE FROM address 
 	        WHERE
@@ -92,7 +92,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	    <![CDATA[
 	    FROM address 
         WHERE 
-	    	  telephone = #{telephone,jdbcType=VARCHAR}
+	    	user_id =  #{userId,jdbcType=INTEGER}
 	    ]]>
 	</select>
 	

@@ -233,44 +233,44 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<!-- 根据条件查询 -->
-	<select id="getPageOrderDetail" resultMap="orderDetailResultMap"   parameterType="hashmap">
+	<select id="getPageOrderDetail" resultMap="orderDetailResultMap"   parameterType="cn.jeeweb.modules.entity.OrderDetail">
 		SELECT <include refid="orderDetailColumnList" />
 	    <![CDATA[
 	    FROM order_detail 
 	    ]]>
         <where>	  
         	1=1      				
-		       <if test="condition!=null and condition.id != null">
+		       <if test="id != null">
 					AND Id = #{id,jdbcType=INTEGER}
 			   </if>
-		       <if test="condition!=null and condition.userId != null">
+		       <if test="userId != null">
 					AND user_Id = #{userId,jdbcType=INTEGER}
 			   </if>
-		       <if test="condition!=null and condition.orderStatus != null">
-					AND order_status = #{orderStatus,jdbcType=VARCHAR}
-			   </if>
-		       <if test="condition!=null and condition.orderStatement != null">
+		     	<if test="orderStatus != null" >
+			 	   and order_status =#{orderStatus,jdbcType=VARCHAR}
+			  	</if>
+		       <if test="orderStatement != null">
 					AND order_statement = #{orderStatement,jdbcType=VARCHAR}
 			   </if>
-		       <if test="condition!=null and condition.carId != null">
+		       <if test="carId != null">
 					AND car_id = #{carId,jdbcType=INTEGER}
 			   </if>
-		       <if test="condition!=null and condition.createDate != null">
+		       <if test="createDate != null">
 					AND create_date = #{createDate,jdbcType=TIMESTAMP}
 			   </if>
-		       <if test="condition!=null and condition.orderJson != null">
+		       <if test="orderJson != null">
 					AND order_json = #{orderJson,jdbcType=LONGVARCHAR}
 			   </if>
-		       <if test="condition!=null and condition.orderOwner != null">
+		       <if test="orderOwner != null">
 					AND order_owner = #{orderOwner,jdbcType=VARCHAR}
 			   </if>
-		       <if test="condition!=null and condition.orderTelephone != null">
+		       <if test="orderTelephone != null">
 					AND order_telephone = #{orderTelephone,jdbcType=VARCHAR}
 			   </if>
-		       <if test="condition!=null and condition.addressDetail != null">
+		       <if test="addressDetail != null">
 					AND address_detail = #{addressDetail,jdbcType=VARCHAR}
 			   </if>
-		       <if test="condition!=null and condition.orderPayAmount != null">
+		       <if test="orderPayAmount != null">
 					AND order_pay_amount = #{orderPayAmount,jdbcType=DECIMAL}
 			   </if>
 		</where>
@@ -278,14 +278,20 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
    
   	
   		<!-- 根据主键查询 -->
-	<select id="queryOrder" resultMap="orderDetailResultMap">
+	<select id="queryOrder" resultMap="orderDetailResultMap"  parameterType="cn.jeeweb.modules.entity.OrderDetail">
 		SELECT <include refid="orderDetailColumnList" />
 	    <![CDATA[
 	    FROM order_detail 
-        WHERE 
-	        user_Id = #{userId,jdbcType=INTEGER}
-	    order by create_date  desc 
+	    where user_Id = #{userId,jdbcType=INTEGER}
 	    ]]>
+        <if test="orderStatus != null" >
+		    <![CDATA[ 
+		    and order_status =#{orderStatus,jdbcType=VARCHAR}
+		     ]]>
+	  	</if>
+        <![CDATA[
+            ORDER BY id DESC
+        ]]> 
 	</select>
 	
 </mapper>

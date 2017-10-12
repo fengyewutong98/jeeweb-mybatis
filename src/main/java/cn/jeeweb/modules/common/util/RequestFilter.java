@@ -13,11 +13,22 @@ public  class RequestFilter implements Filter {
    //创建线程
    public static ThreadLocal<HttpServletRequest> threadLocalRequest = new ThreadLocal<HttpServletRequest>();
    public static ThreadLocal<HttpServletResponse> threadLocalResponse = new ThreadLocal<HttpServletResponse>();
-   public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2) throws IOException, ServletException{
-       threadLocalRequest.set((HttpServletRequest) arg0);
-       threadLocalResponse.set((HttpServletResponse) arg1);
-       arg2.doFilter(arg0, arg1);
-    }
+ 
    public void destroy() {}
    public void init(FilterConfig arg0) throws ServletException {}
+
+public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletResponse res = (HttpServletResponse) servletResponse;
+        HttpServletRequest request=(HttpServletRequest)servletRequest;
+        res.setContentType("textml;charset=UTF-8");
+        res.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        res.setHeader("Access-Control-Max-Age", "0");
+        res.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");
+        res.setHeader("Access-Control-Allow-Credentials", "true");
+        res.setHeader("XDomainRequestAllowed","1");
+        threadLocalRequest.set((HttpServletRequest) servletRequest);
+        threadLocalResponse.set((HttpServletResponse) servletResponse);
+        filterChain.doFilter(servletRequest, servletResponse);
+    }
 }

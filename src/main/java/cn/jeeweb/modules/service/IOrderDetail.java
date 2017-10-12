@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.jeeweb.modules.entity.OrderDetail;
+import net.sf.json.JSONObject;
 
 
 /**
@@ -21,7 +22,7 @@ public interface IOrderDetail{
 	 * @return
 	 * @throws BusinessException
 	 */
-	List<OrderDetail> queryOrder(int userId);
+	List<OrderDetail> queryOrder(OrderDetail order);
 	/**
 	 * 创建订单
 	 * @param orderDetail
@@ -91,5 +92,11 @@ public interface IOrderDetail{
 	 * @throws BusinessException
 	 */
 	List<OrderDetail> getOrderDetailList(String tenantId,Map<String, Object> condition);
+	/**
+	 * 根据订单id查询订单详情
+	 * @param id
+	 * @return
+	 */
+	JSONObject querOrderById(String id);
 	
 }

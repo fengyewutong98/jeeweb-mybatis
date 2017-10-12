@@ -30,7 +30,7 @@ public interface AddressDao {
 	 * @param id
 	 * @return
 	 */
-	int delAddress(@Param("tenantId")String tenantId,@Param("id")int id);
+	int delAddress(Address  address);
 	
 	/**
 	 * 根据id更新
@@ -66,7 +66,7 @@ public interface AddressDao {
 	 * @param phone
 	 * @return
 	 */
-	List<Address> queryAddress(String phone);
+	List<Address> queryAddress(Integer userId);
 	
 	
 	

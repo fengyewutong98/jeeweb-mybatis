@@ -18,7 +18,8 @@
 		location="classpath:dbconfig.properties,classpath:jeeweb.properties,classpath:shiro.properties,classpath:fileupload.properties" />
    	<!-- 自动扫描dao和service包(自动注入) -->
 	<context:component-scan base-package="cn.jeeweb.*" />
-	
+    
+    	
 	<import resource="spring-config-mybatis.xml" />
 	<!-- <import resource="spring-config-cache.xml" /> -->
 	<!-- <import resource="spring-config-shiro.xml" /> -->

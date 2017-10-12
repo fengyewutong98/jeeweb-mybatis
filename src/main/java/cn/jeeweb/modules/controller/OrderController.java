@@ -12,17 +12,23 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
 
+import cn.jeeweb.modules.common.util.MsgUtil;
 import cn.jeeweb.modules.common.util.OrderEnum;
 import cn.jeeweb.modules.entity.OrderDetail;
 import cn.jeeweb.modules.entity.ProductDetail;
 import cn.jeeweb.modules.order.entity.Orders;
+import cn.jeeweb.modules.service.IMsgService;
 import cn.jeeweb.modules.service.IOrderDetail;
 import cn.jeeweb.modules.service.IProductDetail;
 import net.sf.json.JSONArray;
@@ -51,7 +57,7 @@ public class OrderController {
 	 * @param response
 	 * @throws UnsupportedEncodingException
 	 */
-	@RequestMapping(value="/saveorder")
+	@RequestMapping(value="/saveorder" ,method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE +";charset=UTF-8")
 	@ResponseBody
 	public void saveorder(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
 		
@@ -70,8 +76,8 @@ public class OrderController {
 		orderOwner = URLDecoder.decode(orderOwner, "utf-8");
 		String orderStatement = OrderEnum.getName(orderStatus);
 		OrderDetail order = new OrderDetail();
-		UUID uuid = UUID.randomUUID();
-		String orderUuid = "FKCS"+uuid.toString();
+		String uuid = UUID.randomUUID().toString();
+		String orderUuid = "FKCS"+uuid.replace("-", "").substring(0, 10);
 		order.setOrderUuid(orderUuid);
 		order.setOrderStatus(orderStatus);
 		order.setUserId(userId);
@@ -120,7 +126,12 @@ public class OrderController {
 			log.info("错误异常"+e);
 		}
 		log.info("--查询成功--");
-		
+		/*try {
+			int i = MsgUtil.send(orderUuid);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			log.info("邮件发送失败song");
+		}*/
 		try {
 		    PrintWriter out = response.getWriter();
 			out.write(callback+'('+json+')'); 
@@ -143,13 +154,19 @@ public class OrderController {
 		
 		
 		Integer userId =  (Integer) request.getSession().getAttribute("userId");
+		String orderStatus = request.getParameter("orderStatus");
+		OrderDetail order = new OrderDetail();
+		if(StringUtils.isNotBlank(orderStatus)) {
+			order.setOrderStatus(orderStatus);	
+		}
+		order.setUserId(userId);
 		
 		
 		String callback = request.getParameter("callback"); 
 		JSONObject json = new JSONObject();
 		response.setContentType("text/javascript");
 		try {
-			List <OrderDetail> list =iOrderDetail.queryOrder(userId);
+			List <OrderDetail> list =iOrderDetail.queryOrder(order);
 //			iOrder.addOrder("", order);
 			json.put("list", list);
 			json.put("returnCode", "000000");
@@ -172,5 +189,50 @@ public class OrderController {
 		}  
 	}
 
+	
+	/**
+	 * 查询订单 
+	 * @param request
+	 * @param response
+	 * @throws UnsupportedEncodingException
+	 */
+	@RequestMapping(value="/queryOrderById")
+	@ResponseBody
+	public void queryOrderById(HttpServletRequest request, HttpServletResponse response
+			,String orderId) throws UnsupportedEncodingException {
+		
+		
+		Integer userId =  (Integer) request.getSession().getAttribute("userId");
+		String id = request.getParameter("orderId");				
+		
+		String callback = request.getParameter("callback"); 
+		JSONObject json = new JSONObject();
+		response.setContentType("text/javascript");
+		if(userId>0) {
+			try {
+				JSONObject jsonobject = iOrderDetail.querOrderById(id);
+//				List <OrderDetail> list =iOrderDetail.queryOrder(order);
+//				iOrder.addOrder("", order);
+				json.put("json", jsonobject);
+				json.put("returnCode", "000000");
+		        json.put("returnMsg", "成功");
+			}catch(Exception e){
+				json.put("returnCode", "111111");
+		        json.put("returnMsg", "服务器异常");
+				log.info("错误异常"+e);
+			}
+		}
+		log.info("--查询成功--");
+		
+		try {
+		    PrintWriter out = response.getWriter();
+			out.write(callback+'('+json+')'); 
+	        out.flush(); 
+	        log.info("--回调数据成功成功--");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+	}
 
 }

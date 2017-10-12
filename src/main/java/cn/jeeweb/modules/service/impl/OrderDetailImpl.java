@@ -125,9 +125,20 @@ public class OrderDetailImpl implements IOrderDetail{
 	}
 
 	@Override
-	public List<OrderDetail> queryOrder(int userId) {
+	public List<OrderDetail> queryOrder(OrderDetail order) {
 		// TODO Auto-generated method stub
-		return orderDetailDao.queryOrder(userId);
+		return orderDetailDao.queryOrder(order);
+	}
+
+	@Override
+	public JSONObject querOrderById(String id) {
+		// TODO Auto-generated method stub
+		JSONObject json = new  JSONObject();
+		OrderDetail orderDetail = orderDetailDao.getOrderDetailById("", Integer.valueOf(id));
+		String orderJson = orderDetail.getOrderJson();
+		json.put("orderDetail", orderDetail);
+		
+		return json;
 	}
 	
 	

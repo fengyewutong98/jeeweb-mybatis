@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.jeeweb.modules.common.util.RequestFilter;
+import cn.jeeweb.modules.service.IProductCart;
 import cn.jeeweb.modules.service.IShoppingCart;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -25,6 +25,9 @@ public class CateController {
 	
 	@Autowired
 	private IShoppingCart iShoppingCart;
+	@Autowired
+	private IProductCart iProductCart;
+	
 	
 	/**
 	 * 商品添加购物车 
@@ -41,17 +44,17 @@ public class CateController {
 		log.info("添加购物车");
 	    request = RequestFilter.threadLocalRequest.get();
 	    String  phone = (String) request.getSession().getAttribute("phone");
-	    log.info(userphone);
+	    log.info(phone);
 		log.info("--添加成功--");
 		String callback = request.getParameter("callback"); 
 		JSONObject json = new JSONObject();
 		response.setContentType("text/javascript");
-	    if(userphone == null) {
+	    if(phone == null) {
 	        json.put("returnCode", "111111");
 	        json.put("returnMsg", "请登录失败");
 	    }else {
 	    	try {
-	    		iShoppingCart.addShoppingCart(userphone, Integer.valueOf(num), productId);
+	    		iShoppingCart.addShoppingCart(phone, Integer.valueOf(num), productId);
 	    		 json.put("returnCode", "000000");
 		         json.put("returnMsg", "成功");
 	    	} catch (Exception e) {
@@ -121,5 +124,42 @@ public class CateController {
 		}  
 	}
 	
-      
+	/**
+	 * 删除购物车
+	 * @param request
+	 * @param response
+	 * @param productId
+	 * @param userphone
+	 * @param num
+	 */
+	@RequestMapping(value="/deletecart")
+	@ResponseBody
+	public void deletecart(HttpServletRequest request, HttpServletResponse response,
+			String carId,String productId){
+		log.info("删除商品购物车里的");
+		log.info("--添加成功--");
+		String callback = request.getParameter("callback"); 
+		JSONObject json = new JSONObject();
+		response.setContentType("text/javascript");
+    	try {
+    		 iProductCart.delProductCart(carId, productId);
+    		 json.put("returnCode", "000000");
+	         json.put("returnMsg", "成功");
+    	} catch (Exception e) {
+			// TODO: handle exception
+    		log.info(e);
+    		json.put("returnCode", "111111");
+	        json.put("returnMsg", "服务器异常");
+		}
+		
+		try {
+		    PrintWriter out = response.getWriter();
+			out.write(callback+'('+json+')'); 
+	        out.flush(); 
+	        log.info("--回调数据成功成功--");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+	}
 }

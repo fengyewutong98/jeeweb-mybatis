@@ -46,6 +46,7 @@ public class AddressController {
 		log.info("查询地址");
 	    request = RequestFilter.threadLocalRequest.get();
 	    String  phone = (String) request.getSession().getAttribute("phone");
+	    Integer  userId = (Integer) request.getSession().getAttribute("userId");
 		log.info("--添加成功--");
 		String callback = request.getParameter("callback"); 
 		JSONObject json = new JSONObject();
@@ -55,7 +56,7 @@ public class AddressController {
 	        json.put("returnMsg", "请登录失败");
 	    }else {
 	    	try {
-	    		List<Address> list = iAddress.queryAddress(phone);
+	    		List<Address> list = iAddress.queryAddress(userId);
 	    		 json.put("list", list);
 	    		 json.put("returnCode", "000000");
 		         json.put("returnMsg", "成功");
@@ -92,6 +93,7 @@ public class AddressController {
 		request.setCharacterEncoding("UTF-8"); 
         String recipients=request.getParameter("recipients"); 
         String addressDetail =request.getParameter("addressDetail"); 
+        String telephone =request.getParameter("telephone"); 
         recipients = URLDecoder.decode(recipients, "utf-8");
         addressDetail= URLDecoder.decode(addressDetail, "utf-8");
         log.info(addressDetail+"----"+recipients);
@@ -101,7 +103,7 @@ public class AddressController {
 	    String  phone = (String) request.getSession().getAttribute("phone");
 	    Integer  userId = (Integer) request.getSession().getAttribute("userId");
 	    address.setUserId(userId);
-	    address.setTelephone(phone);
+	    address.setTelephone(telephone);
 		log.info("--添加成功--");
 		String callback = request.getParameter("callback"); 
 		JSONObject json = new JSONObject();
@@ -112,6 +114,54 @@ public class AddressController {
 	    }else {
 	    	try {
 	    		int i = iAddress.addAddress(callback, address);
+	    		 json.put("returnCode", "000000");
+		         json.put("returnMsg", "成功");
+	    	} catch (Exception e) {
+				// TODO: handle exception
+	    		log.info(e);
+	    		json.put("returnCode", "111111");
+		        json.put("returnMsg", "服务器异常");
+			}
+	    }
+		
+		try {
+		    PrintWriter out = response.getWriter();
+			out.write(callback+'('+json+')'); 
+	        out.flush(); 
+	        log.info("--回调数据成功成功--");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+	}
+	
+	
+	/**
+	 * 删除地址
+	 * @param request
+	 * @param response
+	 * @throws UnsupportedEncodingException 
+	 */
+	@RequestMapping(value="/deleteaddress",method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE +";charset=UTF-8")
+	@ResponseBody
+	public void deleteaddress(HttpServletRequest request, HttpServletResponse response ,
+			String addressId)
+			throws UnsupportedEncodingException{
+		log.info("删除地址");
+		request.setCharacterEncoding("UTF-8"); 
+	    request = RequestFilter.threadLocalRequest.get();
+	    String  phone = (String) request.getSession().getAttribute("phone");
+	    Integer  userId = (Integer) request.getSession().getAttribute("userId");
+		log.info("--添加成功--");
+		String callback = request.getParameter("callback"); 
+		JSONObject json = new JSONObject();
+		response.setContentType("text/javascript");
+	    if(phone == null) {
+	        json.put("returnCode", "111111");
+	        json.put("returnMsg", "请登录失败");
+	    }else {
+	    	try {
+	    		int i = iAddress.delAddress("", Integer.valueOf(addressId));
 	    		 json.put("returnCode", "000000");
 		         json.put("returnMsg", "成功");
 	    	} catch (Exception e) {

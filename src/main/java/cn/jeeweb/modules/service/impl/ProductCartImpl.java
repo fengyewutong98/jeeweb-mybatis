@@ -2,11 +2,13 @@ package cn.jeeweb.modules.service.impl;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.jeeweb.modules.dao.ProductCartDao;
 import cn.jeeweb.modules.entity.ProductCart;
@@ -30,17 +32,6 @@ public class ProductCartImpl implements IProductCart{
 		return productCartDao.addProductCart(productCart);
 	}
 
-	@Override
-	public int delProductCart(String tenantId, int[] ids) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int delProductCart(String tenantId, int id) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public int updateProductCart(String tenantId, ProductCart productCart) {
@@ -67,7 +58,16 @@ public class ProductCartImpl implements IProductCart{
 	}
 	
 
-	
+	@Override
+	@Transactional
+	public int delProductCart(String carId,String productId) {
+		// TODO Auto-generated method stub
+		Map <String,Object> map = new HashMap<>();
+		ProductCart productCart = new ProductCart();
+		productCart.setCartId(Integer.valueOf(carId));
+		productCart.setProductId(Integer.valueOf(productId));
+		return productCartDao.delProductCart(productCart);
+	}
 	
 	
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,7 @@ import cn.jeeweb.modules.service.IAddress;
 @Service("addressService")
 public class AddressImpl implements IAddress{
 
+	private Logger log = Logger.getLogger(this.getClass());
 	@Autowired
 	private AddressDao addressDao;
 
@@ -39,8 +41,10 @@ public class AddressImpl implements IAddress{
 
 	@Override
 	public int delAddress(String tenantId, int id) {
-		// TODO Auto-generated method stub
-		return 0;
+		log.info("删除地址");
+		Address  address = new Address();
+		address.setAddressId(id);
+		return addressDao.delAddress(address);
 	}
 
 	@Override
@@ -74,9 +78,9 @@ public class AddressImpl implements IAddress{
 	}
 
 	@Override
-	public List<Address> queryAddress(String phone) {
+	public List<Address> queryAddress(Integer userId) {
 		// TODO Auto-generated method stub
-		return addressDao.queryAddress(phone);
+		return addressDao.queryAddress(userId);
 	}
 	
 
